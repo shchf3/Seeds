@@ -24,6 +24,12 @@
   version = "v1.2"
 
 [[projects]]
+  name = "github.com/go-sql-driver/mysql"
+  packages = ["."]
+  revision = "a0583e0143b1624142adab07e0e97fe106d99561"
+  version = "v1.3"
+
+[[projects]]
   name = "github.com/golang/protobuf"
   packages = ["proto"]
   revision = "5a0f697c9ed9d68fef0116532c6e05cfeae00e55"
@@ -131,23 +137,6 @@
   version = "v8.18.1"
 
 [[projects]]
-  name = "gopkg.in/reform.v1"
-  packages = [
-    ".",
-    "dialects",
-    "dialects/mssql",
-    "dialects/mysql",
-    "dialects/postgresql",
-    "dialects/sqlite3",
-    "dialects/sqlserver",
-    "internal",
-    "parse",
-    "reform"
-  ]
-  revision = "161dee950cbd38085dac33c87ef81140f2da99cc"
-  version = "v1.3.1"
-
-[[projects]]
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   revision = "7f97868eec74b32b0982dd158a51a446d1da7eb5"
@@ -156,6 +145,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f23a1338c18e884164ca13c7c414d719cb2c228a7055c0765ebc65f08135227f"
+  inputs-digest = "7497f158ea5db29b28b9d8518a10d281b351e1fa2c8848b08ec5e51fa8f025c4"
   solver-name = "gps-cdcl"
   solver-version = 1
