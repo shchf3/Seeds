@@ -1,3 +1,5 @@
 database:
-  host: test.database
+  host: 192.168.60.128
   port: 3306
+  user: root
+  pass: IndexyzDevelopment

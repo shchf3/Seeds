@@ -19,7 +19,8 @@ func GetConfig() *viper.Viper {
 	c.SetDefault("redis.enableAuth", true)
 	c.SetDefault("redis.password", "password")
 
+	c.SetDefault("cacheTTL", 60)
+
 	c.ReadInConfig()
-	c.SafeWriteConfigAs("./config.yaml")
 	return c
 }

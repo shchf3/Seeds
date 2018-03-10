@@ -131,6 +131,23 @@
   version = "v8.18.1"
 
 [[projects]]
+  name = "gopkg.in/reform.v1"
+  packages = [
+    ".",
+    "dialects",
+    "dialects/mssql",
+    "dialects/mysql",
+    "dialects/postgresql",
+    "dialects/sqlite3",
+    "dialects/sqlserver",
+    "internal",
+    "parse",
+    "reform"
+  ]
+  revision = "161dee950cbd38085dac33c87ef81140f2da99cc"
+  version = "v1.3.1"
+
+[[projects]]
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   revision = "7f97868eec74b32b0982dd158a51a446d1da7eb5"
@@ -139,6 +156,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "6948ddc29b6b6c0953e769a6b007136704fdc515c64b758c55b818b473b92e86"
+  inputs-digest = "f23a1338c18e884164ca13c7c414d719cb2c228a7055c0765ebc65f08135227f"
   solver-name = "gps-cdcl"
   solver-version = 1

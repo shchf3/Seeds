@@ -11,7 +11,7 @@ type FunctionRouter struct {
 
 func ping(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": "pong",
 	})
 }
