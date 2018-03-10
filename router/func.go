@@ -16,7 +16,7 @@ func ping(context *gin.Context) {
 	})
 }
 
-func relayRule(context *gin.Context) {
+func detectRules(context *gin.Context) {
 
 }
 
