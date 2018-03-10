@@ -13,12 +13,13 @@ import (
 type UserRouter struct {
 	routerAble
 }
+
 var unableToProcessReq = gin.H{
 	"ret": 0,
 	"error": "Unable to process entity",
 }
 
-func getNode(context *gin.Context) (models.SsNode, bool) {
+func getNodeFromQuery(context *gin.Context) (models.SsNode, bool) {
 	db := utils.GetMySQLInstance()
 	data, hasKey := context.GetQuery("node_id")
 
@@ -49,7 +50,7 @@ func getNode(context *gin.Context) (models.SsNode, bool) {
 func getUserList(context *gin.Context) {
 	db := utils.GetMySQLInstance()
 
-	node, notFound := getNode(context)
+	node, notFound := getNodeFromQuery(context)
 
 	if notFound {
 		return
@@ -117,7 +118,7 @@ type TrafficDataJSON struct {
 
 func addTraffic(context *gin.Context) {
 	db := utils.GetMySQLInstance()
-	node, notFound := getNode(context)
+	node, notFound := getNodeFromQuery(context)
 	if notFound {
 		return
 	}
@@ -175,7 +176,7 @@ type AliveDataJSON struct {
 
 func addAliveIp(context *gin.Context) {
 	db := utils.GetMySQLInstance()
-	node, notFound := getNode(context)
+	node, notFound := getNodeFromQuery(context)
 	if notFound {
 		return
 	}
@@ -187,9 +188,42 @@ func addAliveIp(context *gin.Context) {
 			UserId: data.UserId,
 			Ip: data.Ip,
 			NodeId: node.Id,
-			Datetime: time.Now().Unix()
+			Datetime: time.Now().Unix(),
 		})
 	}
+	context.JSON(http.StatusOK, gin.H{
+		"ret": 1,
+		"data": "ok",
+	})
+}
+
+type DetectData struct {
+	ListId int64  `json:"list_id"`
+	UserId int64  `json:"user_id"`
+}
+
+type DetectDataJSON struct {
+	Data []DetectData `json:"data"`
+}
+
+func addDetectLog(context *gin.Context) {
+	db := utils.GetMySQLInstance()
+	node, notFound := getNodeFromQuery(context)
+	if notFound {
+		return
+	}
+	var body DetectDataJSON
+	context.BindJSON(&body)
+
+	for _, data := range body.Data {
+		db.Database.Save(&models.DetectLog{
+			UserId: data.UserId,
+			ListId: data.ListId,
+			NodeId: node.Id,
+			Datetime: time.Now().Unix(),
+		})
+	}
+
 	context.JSON(http.StatusOK, gin.H{
 		"ret": 1,
 		"data": "ok",
@@ -202,5 +236,6 @@ func (UserRouter) create(engine *gin.Engine) {
 		userGroup.GET("/", getUserList)
 		userGroup.POST("/traffic", addTraffic)
 		userGroup.POST("/aliveip", addAliveIp)
+		userGroup.POST("/detectlog", addDetectLog)
 	}
 }

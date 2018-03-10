@@ -38,5 +38,8 @@ func Load() *gin.Engine {
 	user := UserRouter{}
 	user.create(e)
 
+	node := NodeRouter{}
+	node.create(e)
+
 	return e
 }
