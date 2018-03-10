@@ -111,7 +111,7 @@ type TrafficData struct {
 	UserId int64 `json:"user_id"`
 }
 
-type DataJSON struct {
+type TrafficDataJSON struct {
 	Data []TrafficData `json:"data"`
 }
 
@@ -122,7 +122,7 @@ func addTraffic(context *gin.Context) {
 		return
 	}
 
-	var body DataJSON
+	var body TrafficDataJSON
 	context.BindJSON(&body)
 
 	var totalBandwidth int64 = 0
@@ -164,10 +164,43 @@ func addTraffic(context *gin.Context) {
 	})
 }
 
+type AliveData struct {
+	Ip     string `json:"ip"`
+	UserId int    `json:"user_id"`
+}
+
+type AliveDataJSON struct {
+	Data []AliveData `json:"data"`
+}
+
+func addAliveIp(context *gin.Context) {
+	db := utils.GetMySQLInstance()
+	node, notFound := getNode(context)
+	if notFound {
+		return
+	}
+	var body AliveDataJSON
+	context.BindJSON(&body)
+
+	for _, data := range body.Data {
+		db.Database.Save(&models.AliveIp{
+			UserId: data.UserId,
+			Ip: data.Ip,
+			NodeId: node.Id,
+			Datetime: time.Now().Unix()
+		})
+	}
+	context.JSON(http.StatusOK, gin.H{
+		"ret": 1,
+		"data": "ok",
+	})
+}
+
 func (UserRouter) create(engine *gin.Engine) {
 	userGroup := engine.Group("/users")
 	{
 		userGroup.GET("/", getUserList)
 		userGroup.POST("/traffic", addTraffic)
+		userGroup.POST("/aliveip", addAliveIp)
 	}
 }
