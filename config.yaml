@@ -1,0 +1,3 @@
+database:
+  host: test.database
+  port: 3306
