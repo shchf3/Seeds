@@ -5,7 +5,6 @@ import (
 	"Seeds/models"
 	"net/http"
 	"Seeds/utils"
-	"strconv"
 	"time"
 )
 
@@ -30,31 +29,23 @@ func getNodeFromParam(context *gin.Context) (models.SsNode, bool) {
 	return node, false
 }
 
+type InfoBody struct {
+	Load   string   `json:"load"`
+	Uptime float64  `json:"uptime"`
+}
+
 func setInfo(context *gin.Context) {
 	db := utils.GetMySQLInstance()
 	node, notFound := getNodeFromParam(context)
 	if notFound {
 		return
 	}
-	load, has := context.GetQuery("load")
-	if !has {
-		context.JSON(http.StatusUnprocessableEntity, gin.H{"ret": 0})
-		return
-	}
-	uptimeRaw, has := context.GetQuery("uptime")
-	if !has {
-		context.JSON(http.StatusUnprocessableEntity, gin.H{"ret": 0})
-		return
-	}
-	uptime, err := strconv.ParseFloat(uptimeRaw, 64)
-	if err != nil {
-		context.JSON(http.StatusUnprocessableEntity, gin.H{"ret": 0})
-		return
-	}
+	var body InfoBody
+	context.BindJSON(&body)
 
 	db.Database.Save(&models.SsNodeInfo{
-		Load: load,
-		Uptime: uptime,
+		Load: body.Load,
+		Uptime: body.Uptime,
 		NodeId: node.Id,
 		LogTime: int(time.Now().Unix()),
 	})
