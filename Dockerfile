@@ -1,3 +1,3 @@
 FROM alpine
-COPY seeds /seeds
-ENTRYPOINT ["/seeds"]
+ADD seeds /bin/
+ENTRYPOINT ["/bin/seeds"]

@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/viper"
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 func GetConfig() *viper.Viper {
@@ -11,6 +12,7 @@ func GetConfig() *viper.Viper {
 	c.SetConfigType("yaml")
 	c.SetConfigName("config")
 	c.AddConfigPath(".")
+	c.AutomaticEnv()
 
 	c.SetDefault("database.host", "127.0.0.1")
 	c.SetDefault("database.port", 3306)
@@ -26,6 +28,8 @@ func GetConfig() *viper.Viper {
 	c.SetDefault("cacheTTL", 60)
 	c.SetDefault("verifyKey", "Hello")
 
+	replacer := strings.NewReplacer(".", "_")
+	c.SetEnvKeyReplacer(replacer)
 	c.ReadInConfig()
 	return c
 }
