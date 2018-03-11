@@ -11,3 +11,15 @@ pipeline:
       - go get -u github.com/golang/dep/cmd/dep
       - dep ensure
       - go build -o seeds
+  github_release:
+    image: plugins/github-release
+    api_key: $GITHUB_TOKEN
+    files:
+      - seeds
+    checksum:
+      - md5
+      - sha1
+      - sha256
+    when:
+      event: tag
+    
