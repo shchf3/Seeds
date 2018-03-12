@@ -7,7 +7,6 @@ import (
 	"strconv"
 	"time"
 	"Seeds/models"
-	"fmt"
 )
 
 type UserRouter struct {
@@ -69,7 +68,6 @@ func getUserList(context *gin.Context) {
 			return
 		}
 	}
-	fmt.Println(time.Now().Format("2000-01-01 12:00:00"))
 	var rawUsers []models.User
 	query := db.Database.Where("class >= ?", node.NodeClass).
 		Where("enable = ?", 1).Where("expire_in > ?", time.Now().Unix()).
