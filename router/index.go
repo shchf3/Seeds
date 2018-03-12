@@ -41,7 +41,7 @@ func Load() *gin.Engine {
 
 	var modPath *gin.RouterGroup
 
-	if utils.GetConfig().GetBool("mod_url") {
+	if utils.GetConfig().GetBool("modURL") {
 		modPath = e.Group("/mod_mu")
 	} else {
 		modPath = e.Group("")

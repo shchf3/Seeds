@@ -27,7 +27,7 @@ func GetConfig() *viper.Viper {
 
 	c.SetDefault("cacheTTL", 60)
 	c.SetDefault("verifyKey", "Hello")
-	c.SetDefault("modURL", false)
+	c.SetDefault("modURL", true)
 
 	replacer := strings.NewReplacer(".", "_")
 	c.SetEnvKeyReplacer(replacer)
