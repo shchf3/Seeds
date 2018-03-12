@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"Seeds/utils"
 	"time"
+	"strconv"
 )
 
 type NodeRouter struct {
@@ -31,7 +32,7 @@ func getNodeFromParam(context *gin.Context) (models.SsNode, bool) {
 
 type InfoBody struct {
 	Load   string   `json:"load"`
-	Uptime float64  `json:"uptime"`
+	Uptime string   `json:"uptime"`
 }
 
 func setInfo(context *gin.Context) {
@@ -42,10 +43,18 @@ func setInfo(context *gin.Context) {
 	}
 	var body InfoBody
 	context.BindJSON(&body)
+	uptime, err := strconv.ParseFloat(body.Uptime, 64)
+
+	if err != nil {
+		context.JSON(http.StatusUnprocessableEntity, gin.H{
+			"ret": 0,
+		})
+		return
+	}
 
 	db.Database.Save(&models.SsNodeInfo{
 		Load: body.Load,
-		Uptime: body.Uptime,
+		Uptime: uptime,
 		NodeId: node.Id,
 		LogTime: int(time.Now().Unix()),
 	})
