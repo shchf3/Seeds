@@ -170,7 +170,7 @@ func addAutoExec(context *gin.Context) {
 	})
 }
 
-func (FunctionRouter) create(engine *gin.Engine) {
+func (FunctionRouter) create(engine *gin.RouterGroup) {
 	funcGroup := engine.Group("/func")
 	{
 		funcGroup.GET("/ping", ping)

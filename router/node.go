@@ -92,10 +92,10 @@ func getAllInfo(context *gin.Context) {
 	})
 }
 
-func (NodeRouter) create(engine *gin.Engine) {
+func (NodeRouter) create(engine *gin.RouterGroup) {
 	nodeGroup := engine.Group("/nodes")
 	{
-		nodeGroup.GET("/", getAllInfo)
+		nodeGroup.GET("", getAllInfo)
 		nodeGroup.GET("/:id/info", getInfo)
 		nodeGroup.POST("/:id/info", setInfo)
 	}

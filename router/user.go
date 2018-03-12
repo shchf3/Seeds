@@ -230,10 +230,10 @@ func addDetectLog(context *gin.Context) {
 	})
 }
 
-func (UserRouter) create(engine *gin.Engine) {
+func (UserRouter) create(engine *gin.RouterGroup) {
 	userGroup := engine.Group("/users")
 	{
-		userGroup.GET("/", getUserList)
+		userGroup.GET("", getUserList)
 		userGroup.POST("/traffic", addTraffic)
 		userGroup.POST("/aliveip", addAliveIp)
 		userGroup.POST("/detectlog", addDetectLog)

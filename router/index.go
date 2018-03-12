@@ -7,7 +7,7 @@ import (
 )
 
 type routerAble interface {
-	create(engine *gin.Engine)
+	create(engine *gin.RouterGroup)
 }
 
 var unauthorizedMessage = gin.H{
@@ -30,16 +30,26 @@ func KeyVerify(context *gin.Context) {
 
 func Load() *gin.Engine {
 	e := gin.Default()
+
 	e.Use(KeyVerify)
 
-	function := FunctionRouter{}
-	function.create(e)
+	routers := []routerAble{
+		FunctionRouter{},
+		UserRouter{},
+		NodeRouter{},
+	}
 
-	user := UserRouter{}
-	user.create(e)
+	var modPath *gin.RouterGroup
 
-	node := NodeRouter{}
-	node.create(e)
+	if utils.GetConfig().GetBool("mod_url") {
+		modPath = e.Group("/mod_mu")
+	} else {
+		modPath = e.Group("")
+	}
+
+	for _, r := range routers {
+		r.create(modPath)
+	}
 
 	return e
 }
