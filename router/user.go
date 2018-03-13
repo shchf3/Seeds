@@ -135,8 +135,8 @@ func addTraffic(context *gin.Context) {
 			continue
 		}
 		user.T = int(time.Now().Unix())
-		user.U += data.U
-		user.D += data.D
+		user.U += int64(float64(data.U) * node.TrafficRate)
+		user.D += int64(float64(data.D) * node.TrafficRate)
 		totalBandwidth += data.U + data.D
 		db.Database.Save(&user)
 
