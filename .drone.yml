@@ -5,8 +5,8 @@ workspace:
 kind: pipeline
 name: default
 
-pipeline:
-  name: build
+steps:
+  - name: build
     image: golang:latest
     environment:
       GOPATH: /go
@@ -17,7 +17,7 @@ pipeline:
       - mkdir builds
       - GOOS=linux GOARCH=amd64 go build -o builds/seeds-linux-amd64
 
-  name: github_release
+  - name: github_release
     image: plugins/github-release
     settings:
       files:
