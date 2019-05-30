@@ -23,17 +23,18 @@ steps:
       - GOOS=windows GOARCH=amd64 go build -o builds/seeds-windows-amd64.exe $MAIN_PACKAGE
 
   - name: github_release
-    image: plugins/github-release
+    image: plugins/github-release      
+    when:
+        event: tag
     settings:
       files:
         - builds/*
       checksum:
         - sha1
         - sha256
-      when:
-        event: tag
       api_key:
         from_secret: github_token
+      
 
   - name: docker_release
     image: plugins/docker
