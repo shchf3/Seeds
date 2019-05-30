@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/CloudHammer/Seeds/router"
+	"github.com/CloudHammer/Seeds/src/router"
 	_ "github.com/go-sql-driver/mysql"
 )
 

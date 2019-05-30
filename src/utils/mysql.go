@@ -4,7 +4,7 @@ import (
 	"log"
 	"sync"
 
-	"github.com/CloudHammer/Seeds/models"
+	"github.com/CloudHammer/Seeds/src/models"
 
 	"github.com/jinzhu/gorm"
 )

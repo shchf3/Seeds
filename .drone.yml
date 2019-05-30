@@ -13,13 +13,13 @@ steps:
       CGO_ENABLED: '0'
     commands:
       - go get -u github.com/golang/dep/cmd/dep
-      - dep ensure
+      - dep ensure -v
       - mkdir builds
-      - GOOS=linux GOARCH=amd64 go build -o builds/seeds-linux-amd64
-      - GOOS=linux GOARCH=arm go build -o builds/seeds-linux-arm
-      - GOOS=darwin GOARCH=amd64 go build -o builds/seeds-darwin-amd64
-      - GOOS=freebsd GOARCH=amd64 go build -o builds/seeds-freebsd-amd64
-      - GOOS=windows GOARCH=amd64 go build -o builds/seeds-windows-amd64.exe
+      - GOOS=linux GOARCH=amd64 go build github.com/CloudHammer/Seeds/src/main -o builds/seeds-linux-amd64
+      - GOOS=linux GOARCH=arm go build github.com/CloudHammer/Seeds/src/main -o builds/seeds-linux-arm
+      - GOOS=darwin GOARCH=amd64 go build github.com/CloudHammer/Seeds/src/main -o builds/seeds-darwin-amd64
+      - GOOS=freebsd GOARCH=amd64 go build github.com/CloudHammer/Seeds/src/main -o builds/seeds-freebsd-amd64
+      - GOOS=windows GOARCH=amd64 go build github.com/CloudHammer/Seeds/src/main -o builds/seeds-windows-amd64.exe
 
   - name: github_release
     image: plugins/github-release
@@ -27,7 +27,6 @@ steps:
       files:
         - builds/*
       checksum:
-        - md5
         - sha1
         - sha256
       when:
@@ -35,9 +34,13 @@ steps:
       api_key:
         from_secret: github_token
 
-  # docker:
-  #   image: plugins/docker
-  #   repo: indexyz/seeds
-  #   tags: latest
-  #   secrets: [ docker_username, docker_password ]
+  - name: docker_release
+    image: plugins/docker
+    settings:
+      repo: cloudhammer/seeds
+      auto_tag: true
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
 

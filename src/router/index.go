@@ -3,7 +3,7 @@ package router
 import (
 	"net/http"
 
-	"github.com/CloudHammer/Seeds/utils"
+	"github.com/CloudHammer/Seeds/src/utils"
 	"github.com/gin-gonic/gin"
 )
 
