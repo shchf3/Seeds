@@ -1,3 +1,3 @@
 FROM alpine
-ADD builds/seeds-linux-amd64 /bin/
+COPY builds/seeds-linux-amd64 /bin/seeds
 ENTRYPOINT ["/bin/seeds"]
