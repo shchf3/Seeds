@@ -16,6 +16,10 @@ steps:
       - dep ensure
       - mkdir builds
       - GOOS=linux GOARCH=amd64 go build -o builds/seeds-linux-amd64
+      - GOOS=linux GOARCH=arm go build -o builds/seeds-linux-arm
+      - GOOS=darwin GOARCH=amd64 go build -o builds/seeds-darwin-amd64
+      - GOOS=freebsd GOARCH=amd64 go build -o builds/seeds-freebsd-amd64
+      - GOOS=windows GOARCH=amd64 go build -o builds/seeds-windows-amd64.exe
 
   - name: github_release
     image: plugins/github-release
