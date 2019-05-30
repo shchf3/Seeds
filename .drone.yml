@@ -15,11 +15,11 @@ steps:
       - go get -u github.com/golang/dep/cmd/dep
       - dep ensure -v
       - mkdir builds
-      - GOOS=linux GOARCH=amd64 go build github.com/CloudHammer/Seeds/src/main -o builds/seeds-linux-amd64
-      - GOOS=linux GOARCH=arm go build github.com/CloudHammer/Seeds/src/main -o builds/seeds-linux-arm
-      - GOOS=darwin GOARCH=amd64 go build github.com/CloudHammer/Seeds/src/main -o builds/seeds-darwin-amd64
-      - GOOS=freebsd GOARCH=amd64 go build github.com/CloudHammer/Seeds/src/main -o builds/seeds-freebsd-amd64
-      - GOOS=windows GOARCH=amd64 go build github.com/CloudHammer/Seeds/src/main -o builds/seeds-windows-amd64.exe
+      - GOOS=linux GOARCH=amd64 go build -o builds/seeds-linux-amd64 github.com/CloudHammer/Seeds/src/main
+      - GOOS=linux GOARCH=arm go build -o builds/seeds-linux-arm github.com/CloudHammer/Seeds/src/main
+      - GOOS=darwin GOARCH=amd64 go build -o builds/seeds-darwin-amd64 github.com/CloudHammer/Seeds/src/main
+      - GOOS=freebsd GOARCH=amd64 go build -o builds/seeds-freebsd-amd64 github.com/CloudHammer/Seeds/src/main
+      - GOOS=windows GOARCH=amd64 go build -o builds/seeds-windows-amd64.exe github.com/CloudHammer/Seeds/src/main
 
   - name: github_release
     image: plugins/github-release
