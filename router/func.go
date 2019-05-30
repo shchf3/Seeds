@@ -1,11 +1,12 @@
 package router
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
-	"Seeds/models"
-	"Seeds/utils"
 	"time"
+
+	"github.com/CloudHammer/Seeds/models"
+	"github.com/CloudHammer/Seeds/utils"
+	"github.com/gin-gonic/gin"
 )
 
 type FunctionRouter struct {
@@ -25,7 +26,7 @@ func detectRules(context *gin.Context) {
 	db.Database.Find(&rules)
 
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": rules,
 	})
 }
@@ -41,7 +42,7 @@ func relayRules(context *gin.Context) {
 	db.Database.Where("source_node_id = ?", node.Id).Find(&relies)
 
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": relies,
 	})
 }
@@ -50,9 +51,9 @@ func getBlockIp(context *gin.Context) {
 	db := utils.GetMySQLInstance()
 	var ips []models.BlockIp
 
-	db.Database.Where("datetime > ?", time.Now().Unix() - 60).Find(&ips)
+	db.Database.Where("datetime > ?", time.Now().Unix()-60).Find(&ips)
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": ips,
 	})
 }
@@ -61,9 +62,9 @@ func getUnblockIp(context *gin.Context) {
 	db := utils.GetMySQLInstance()
 	var ips []models.UnblockIp
 
-	db.Database.Where("datetime > ?", time.Now().Unix() - 60).Find(&ips)
+	db.Database.Where("datetime > ?", time.Now().Unix()-60).Find(&ips)
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": ips,
 	})
 }
@@ -95,27 +96,27 @@ func addBlockIp(context *gin.Context) {
 			continue
 		}
 		db.Database.Save(&models.BlockIp{
-			Ip: item.Ip,
-			NodeId: node.Id,
+			Ip:       item.Ip,
+			NodeId:   node.Id,
 			Datetime: time.Now().Unix(),
 		})
 	}
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": "ok",
 	})
 }
 
 type SpeedTestLog struct {
-	TelecomePing string `json:"telecomping"`
-	TelecomeUpload string `json:"telecomeupload"`
+	TelecomePing     string `json:"telecomping"`
+	TelecomeUpload   string `json:"telecomeupload"`
 	TelecomeDownload string `json:"telecomedownload"`
-	UnicomPing string `json:"unicomping"`
-	UnicomUpload string `json:"unicomupload"`
-	UnicomDownload string `json:"unicomdownload"`
-	CmccPing string `json:"cmccping"`
-	CmccUpload string `json:"cmccupload"`
-	CmccDownload string `json:"cmccdownload"`
+	UnicomPing       string `json:"unicomping"`
+	UnicomUpload     string `json:"unicomupload"`
+	UnicomDownload   string `json:"unicomdownload"`
+	CmccPing         string `json:"cmccping"`
+	CmccUpload       string `json:"cmccupload"`
+	CmccDownload     string `json:"cmccdownload"`
 }
 
 type SpeedTestLogJSON struct {
@@ -134,22 +135,22 @@ func addSpeedTest(context *gin.Context) {
 
 	for _, item := range body.Data {
 		db.Database.Save(&models.SpeedTest{
-			TelecomePing: item.TelecomePing,
+			TelecomePing:     item.TelecomePing,
 			TelecomeDownload: item.TelecomeDownload,
-			TelecomeUpload: item.TelecomeUpload,
-			UnicomPing: item.UnicomPing,
-			UnicomDownload: item.UnicomDownload,
-			UnicomUpload: item.UnicomUpload,
-			CmccPing: item.CmccPing,
-			CmccDownload: item.CmccDownload,
-			CmccUpload: item.CmccUpload,
-			NodeId: node.Id,
-			DateTime: time.Now().Unix(),
+			TelecomeUpload:   item.TelecomeUpload,
+			UnicomPing:       item.UnicomPing,
+			UnicomDownload:   item.UnicomDownload,
+			UnicomUpload:     item.UnicomUpload,
+			CmccPing:         item.CmccPing,
+			CmccDownload:     item.CmccDownload,
+			CmccUpload:       item.CmccUpload,
+			NodeId:           node.Id,
+			DateTime:         time.Now().Unix(),
 		})
 	}
 
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": "ok",
 	})
 }
@@ -157,7 +158,7 @@ func addSpeedTest(context *gin.Context) {
 // TODO: implement this
 func getAutoExec(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": []models.Auto{},
 	})
 }
@@ -165,7 +166,7 @@ func getAutoExec(context *gin.Context) {
 // TODO: implement this
 func addAutoExec(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": "ok",
 	})
 }

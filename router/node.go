@@ -1,12 +1,13 @@
 package router
 
 import (
-	"github.com/gin-gonic/gin"
-	"Seeds/models"
 	"net/http"
-	"Seeds/utils"
-	"time"
 	"strconv"
+	"time"
+
+	"github.com/CloudHammer/Seeds/models"
+	"github.com/CloudHammer/Seeds/utils"
+	"github.com/gin-gonic/gin"
 )
 
 type NodeRouter struct {
@@ -22,7 +23,7 @@ func getNodeFromParam(context *gin.Context) (models.SsNode, bool) {
 
 	if err != nil {
 		context.JSON(http.StatusNotFound, gin.H{
-			"ret": 0,
+			"ret":     0,
 			"message": "Node not found",
 		})
 		return models.SsNode{}, true
@@ -31,8 +32,8 @@ func getNodeFromParam(context *gin.Context) (models.SsNode, bool) {
 }
 
 type InfoBody struct {
-	Load   string   `json:"load"`
-	Uptime string   `json:"uptime"`
+	Load   string `json:"load"`
+	Uptime string `json:"uptime"`
 }
 
 func setInfo(context *gin.Context) {
@@ -53,13 +54,13 @@ func setInfo(context *gin.Context) {
 	}
 
 	db.Database.Save(&models.SsNodeInfo{
-		Load: body.Load,
-		Uptime: uptime,
-		NodeId: node.Id,
+		Load:    body.Load,
+		Uptime:  uptime,
+		NodeId:  node.Id,
 		LogTime: int(time.Now().Unix()),
 	})
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": "ok",
 	})
 }
@@ -73,12 +74,12 @@ func getInfo(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{
 		"ret": 1,
 		"data": gin.H{
-			"node_group": node.NodeGroup,
-			"node_class": node.NodeClass,
+			"node_group":      node.NodeGroup,
+			"node_class":      node.NodeClass,
 			"node_speedlimit": node.NodeSpeedlimit,
-			"traffic_rate": node.TrafficRate,
-			"mu_only": node.MuOnly,
-			"sort": node.Sort,
+			"traffic_rate":    node.TrafficRate,
+			"mu_only":         node.MuOnly,
+			"sort":            node.Sort,
 		},
 	})
 }
@@ -96,7 +97,7 @@ func getAllInfo(context *gin.Context) {
 		})
 	}
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": nodes,
 	})
 }

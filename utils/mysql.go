@@ -1,10 +1,12 @@
 package utils
 
 import (
-	"github.com/jinzhu/gorm"
-	"sync"
 	"log"
-	"Seeds/models"
+	"sync"
+
+	"github.com/CloudHammer/Seeds/models"
+
+	"github.com/jinzhu/gorm"
 )
 
 type singletonMySQL struct {

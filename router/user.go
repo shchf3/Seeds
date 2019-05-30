@@ -1,12 +1,14 @@
 package router
 
 import (
-	"github.com/gin-gonic/gin"
-	"Seeds/utils"
 	"net/http"
 	"strconv"
 	"time"
-	"Seeds/models"
+
+	"github.com/CloudHammer/Seeds/utils"
+
+	"github.com/CloudHammer/Seeds/models"
+	"github.com/gin-gonic/gin"
 )
 
 type UserRouter struct {
@@ -14,7 +16,7 @@ type UserRouter struct {
 }
 
 var unableToProcessReq = gin.H{
-	"ret": 0,
+	"ret":   0,
 	"error": "Unable to process entity",
 }
 
@@ -38,7 +40,7 @@ func getNodeFromQuery(context *gin.Context) (models.SsNode, bool) {
 
 	if err != nil {
 		context.JSON(http.StatusNotFound, gin.H{
-			"ret": 0,
+			"ret":     0,
 			"message": "Node not found",
 		})
 		return models.SsNode{}, true
@@ -62,7 +64,7 @@ func getUserList(context *gin.Context) {
 	if node.NodeBandwidthLimit != 0 {
 		if node.NodeBandwidthLimit < node.NodeBandwidth {
 			context.JSON(http.StatusOK, gin.H{
-				"ret": 1,
+				"ret":  1,
 				"data": []gin.H{},
 			})
 			return
@@ -81,27 +83,27 @@ func getUserList(context *gin.Context) {
 
 	for _, user := range rawUsers {
 		users = append(users, gin.H{
-			"method": user.Method,
-			"obfs": user.Obfs,
-			"obfs_param": user.ObfsParam,
-			"protocol": user.Protocol,
-			"protocol_param": user.ProtocolParam,
-			"forbidden_ip": user.ForbiddenIp,
-			"forbidden_port": user.ForbiddenPort,
+			"method":          user.Method,
+			"obfs":            user.Obfs,
+			"obfs_param":      user.ObfsParam,
+			"protocol":        user.Protocol,
+			"protocol_param":  user.ProtocolParam,
+			"forbidden_ip":    user.ForbiddenIp,
+			"forbidden_port":  user.ForbiddenPort,
 			"node_speedlimit": user.NodeSpeedlimit,
-			"disconnect_ip": user.DisconnectIp,
-			"is_multi_user": user.IsMultiUser,
-			"id": user.Id,
-			"port": user.Port,
-			"passwd": user.Passwd,
-			"u": user.U,
-			"d": user.D,
+			"disconnect_ip":   user.DisconnectIp,
+			"is_multi_user":   user.IsMultiUser,
+			"id":              user.Id,
+			"port":            user.Port,
+			"passwd":          user.Passwd,
+			"u":               user.U,
+			"d":               user.D,
 			"transfer_enable": user.U + user.D,
 		})
 	}
 
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": users,
 	})
 }
@@ -141,12 +143,12 @@ func addTraffic(context *gin.Context) {
 		db.Database.Save(&user)
 
 		db.Database.Save(&models.UserTrafficLog{
-			UserId: user.Id,
-			U: data.U,
-			D: data.D,
-			NodeId: node.Id,
-			Rate: node.TrafficRate,
-			Traffic: strconv.Itoa(int(float64(data.U + data.D) * node.TrafficRate)),
+			UserId:  user.Id,
+			U:       data.U,
+			D:       data.D,
+			NodeId:  node.Id,
+			Rate:    node.TrafficRate,
+			Traffic: strconv.Itoa(int(float64(data.U+data.D) * node.TrafficRate)),
 			LogTime: int(time.Now().Unix()),
 		})
 	}
@@ -154,13 +156,13 @@ func addTraffic(context *gin.Context) {
 	db.Database.Save(&node)
 
 	db.Database.Save(&models.SsNodeOnlineLog{
-		NodeId:node.Id,
+		NodeId:     node.Id,
 		OnlineUser: len(body.Data),
-		LogTime: int(time.Now().Unix()),
+		LogTime:    int(time.Now().Unix()),
 	})
 
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": "ok",
 	})
 }
@@ -185,21 +187,21 @@ func addAliveIp(context *gin.Context) {
 
 	for _, data := range body.Data {
 		db.Database.Save(&models.AliveIp{
-			UserId: data.UserId,
-			Ip: data.Ip,
-			NodeId: node.Id,
+			UserId:   data.UserId,
+			Ip:       data.Ip,
+			NodeId:   node.Id,
 			Datetime: time.Now().Unix(),
 		})
 	}
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": "ok",
 	})
 }
 
 type DetectData struct {
-	ListId int64  `json:"list_id"`
-	UserId int64  `json:"user_id"`
+	ListId int64 `json:"list_id"`
+	UserId int64 `json:"user_id"`
 }
 
 type DetectDataJSON struct {
@@ -217,15 +219,15 @@ func addDetectLog(context *gin.Context) {
 
 	for _, data := range body.Data {
 		db.Database.Save(&models.DetectLog{
-			UserId: data.UserId,
-			ListId: data.ListId,
-			NodeId: node.Id,
+			UserId:   data.UserId,
+			ListId:   data.ListId,
+			NodeId:   node.Id,
 			Datetime: time.Now().Unix(),
 		})
 	}
 
 	context.JSON(http.StatusOK, gin.H{
-		"ret": 1,
+		"ret":  1,
 		"data": "ok",
 	})
 }
