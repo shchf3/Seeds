@@ -39,7 +39,7 @@ steps:
   - name: docker_release
     image: plugins/docker
     settings:
-      repo: cloudhammer/seeds
+      repo: pijiang/seeds
       auto_tag: true
       username:
         from_secret: docker_username
