@@ -85,6 +85,9 @@ func getUserList(context *gin.Context) {
 	var users []gin.H
 
 	for _, user := range rawUsers {
+		if(user.transfer_enable < user.U + user.D){
+			continue
+		}
 		users = append(users, gin.H{
 			"id":              user.Id,
 			"email":           user.Id,
