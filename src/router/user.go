@@ -106,7 +106,6 @@ func getUserList(context *gin.Context) {
 			"passwd":          user.Passwd,
 			"u":               user.U,
 			"d":               user.D,
-			"transfer_enable": user.U + user.D,
 		})
 	}
 
