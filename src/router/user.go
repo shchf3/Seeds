@@ -90,7 +90,7 @@ func getUserList(context *gin.Context) {
 		}
 		users = append(users, gin.H{
 			"id":              user.Id,
-			"email":           user.Id,
+			"email":           "email",
 			"uuid":            uuid.NewV3(uuid.NameSpaceDNS, fmt.Sprintf("%d|%s", user.Id, user.Passwd)).String(),
 			"method":          user.Method,
 			"obfs":            user.Obfs,
